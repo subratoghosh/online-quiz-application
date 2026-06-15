@@ -142,12 +142,22 @@ function renderQuestion() {
   const grid = document.getElementById('options-grid');
   grid.innerHTML = '';
   q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="opt-label">${LABELS[i]}</span>${opt}`;
-    btn.addEventListener('click', () => handleAnswer(i));
-    grid.appendChild(btn);
-  });
+  const btn = document.createElement('button');
+  btn.className = 'option-btn';
+
+  const label = document.createElement('span');
+  label.className = 'opt-label';
+  label.textContent = LABELS[i];
+
+  btn.appendChild(label);
+
+  const text = document.createTextNode(opt);
+  btn.appendChild(text);
+
+  btn.addEventListener('click', () => handleAnswer(i));
+
+  grid.appendChild(btn);
+});
 
   startTimer(q.timeLimit);
 }
