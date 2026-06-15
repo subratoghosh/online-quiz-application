@@ -4,7 +4,7 @@
 
 'use strict';
 
-// ─── Question Bank ───────────────────────────────────────
+
 const QUESTIONS = [
   {
     text: 'What does OOP stand for?',
@@ -62,7 +62,6 @@ const TOTAL_POINTS = QUESTIONS.reduce((s, q) => s + q.points, 0);
 const LABELS = ['A', 'B', 'C', 'D'];
 const CIRCUMFERENCE = 2 * Math.PI * 18; // r=18
 
-// ─── State ───────────────────────────────────────────────
 let state = {
   playerName: '',
   currentQ: 0,
@@ -75,7 +74,7 @@ let state = {
   questionStart: 0,
 };
 
-// ─── DOM Refs ────────────────────────────────────────────
+
 const screens = {
   welcome:      document.getElementById('screen-welcome'),
   instructions: document.getElementById('screen-instructions'),
@@ -83,13 +82,11 @@ const screens = {
   result:       document.getElementById('screen-result'),
 };
 
-// ─── Screen Manager ──────────────────────────────────────
 function showScreen(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
 }
 
-// ─── Timer Ring ──────────────────────────────────────────
 const ringArc  = document.getElementById('ring-arc');
 const timerNum = document.getElementById('timer-num');
 
@@ -126,23 +123,22 @@ function startTimer(seconds) {
   }, 1000);
 }
 
-// ─── Render Question ─────────────────────────────────────
 function renderQuestion() {
   const q = QUESTIONS[state.currentQ];
   state.answered = false;
   state.questionStart = Date.now();
 
-  // Topbar
+
   document.getElementById('q-label').textContent = `Q ${state.currentQ + 1} / ${QUESTIONS.length}`;
   document.getElementById('progress-fill').style.width =
     `${(state.currentQ / QUESTIONS.length) * 100}%`;
   document.getElementById('score-live').textContent = `Score: ${state.score}`;
   document.getElementById('q-points-badge').textContent = `+${q.points} pts`;
 
-  // Question
+ 
   document.getElementById('question-text').textContent = q.text;
 
-  // Options
+  
   const grid = document.getElementById('options-grid');
   grid.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -156,7 +152,7 @@ function renderQuestion() {
   startTimer(q.timeLimit);
 }
 
-// ─── Answer Handler ──────────────────────────────────────
+
 function handleAnswer(chosen) {
   if (state.answered) return;
   state.answered = true;
@@ -202,7 +198,7 @@ function nextQuestion() {
   }
 }
 
-// ─── Results ─────────────────────────────────────────────
+
 function showResult() {
   const pct = Math.round((state.score / TOTAL_POINTS) * 100);
 
@@ -225,14 +221,13 @@ function showResult() {
 
   showScreen('result');
 
-  // Animate bar after short delay
+
   setTimeout(() => {
     document.getElementById('score-bar-fill').style.width = pct + '%';
     document.getElementById('score-bar-label').textContent = pct + '%';
   }, 200);
 }
 
-// ─── Init / Restart ──────────────────────────────────────
 function startQuiz() {
   const nameInput = document.getElementById('player-name');
   state.playerName = nameInput.value.trim() || 'Player';
@@ -246,7 +241,7 @@ function startQuiz() {
   renderQuestion();
 }
 
-// ─── Event Listeners ─────────────────────────────────────
+
 document.getElementById('btn-start').addEventListener('click', () => {
   startQuiz();
 });
